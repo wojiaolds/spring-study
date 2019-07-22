@@ -89,8 +89,6 @@ public class Tree<E extends Comparable> {
 				list.add (root.data);
 				linkStack.push (root);
 				root = root.left;
-				
-				
 			}else if(!linkStack.isEmpty ()){
 				Node<E> node = linkStack.pop ();
 				root = node.right;
@@ -109,14 +107,12 @@ public class Tree<E extends Comparable> {
 		}
 	}
 	
-	
-	
+
 	public void inOrder2(Node<E> root,List<E> list){
 		
 		LinkStack<Node<E>> linkStack = new LinkStack<> ();
 		while(root != null || !linkStack.isEmpty ()){
 			if(root != null){
-//				list.add (root.data);
 				linkStack.push (root);
 				root = root.left;
 				
@@ -141,19 +137,21 @@ public class Tree<E extends Comparable> {
 	
 	public void postOrder2(Node<E> root,List<E> list){
 		LinkStack<Node<E>> linkStack = new LinkStack<> ();
+		LinkStack<E> stack = new LinkStack<> ();
 		while(root != null || !linkStack.isEmpty ()){
 			if(root != null){
-				//				list.add (root.data);
+				stack.push(root.data);
 				linkStack.push (root);
-				root = root.left;
+				root = root.right;
 			}else if(!linkStack.isEmpty ()){
 				Node<E> node = linkStack.pop ();
-				root = node.right;
-				if(root == null){
-					list.add (node.data);
-				}
+				root = node.left;
 			}
 		}
+		while (!stack.isEmpty()){
+			list.add(stack.pop());
+		}
+
 	}
 	
 	

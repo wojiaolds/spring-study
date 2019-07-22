@@ -1,6 +1,7 @@
 package com.lds.dyn.importBeanDefinitionRegistrar.beanPostProcessor;
 
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ public class MyBeanPostProcessor implements BeanPostProcessor {
 	throws BeansException {
 		System.out.println ("---"+beanName+"----");
 		return bean;
+
 	}
 	
 	@Override
