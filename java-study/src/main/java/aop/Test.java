@@ -11,7 +11,7 @@ public class Test {
 		System.out.println("do some thing...");
 	}
 	
-	@LogAnnotation
+	@LogAnnotation(des = "wojiaolds")
 	public void doWithNotProxy(){
 		System.out.println("do some thing with not proxy");
 	}

@@ -5,6 +5,7 @@ import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
 import org.apache.commons.lang3.StringUtils;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class MyMethodAdvance implements MethodInterceptor {
 	private HashMap<String,Object>  pointToClass = new HashMap <> () ;
 	private HashMap<String,Method> before = new HashMap <> () ;
 	private HashMap<String,Method> after = new HashMap <> () ;
-	
+
 	public MyMethodAdvance aspectMap(Object aspect){
 		this.aspectMap.add (aspect);
 		return this;
@@ -70,15 +71,18 @@ public class MyMethodAdvance implements MethodInterceptor {
 	@Override
 	public Object intercept( Object proxy, Method method, Object[] args, MethodProxy methodProxy) throws Throwable{
 		
-		String methodName = method.getName();
+		String methodName = method.getDeclaringClass().getName()+"."+method.getName();
+
 		String point = methodToPoint.get(methodName);
 		Object aspect = null;
 		Method b = null;
 		Method a = null;
-		if(StringUtils.isNotEmpty (point))
-			aspect = pointToClass.get (point);
-		b = before.get (point);
-		a = after.get (point);
+		if(StringUtils.isNotEmpty (point)) {
+			aspect = pointToClass.get(point);
+			b = before.get(point);
+			a = after.get(point);
+		}
+
 		
 		if(b != null){
 			b.invoke (aspect,new Object[] {new JoinPoint()});

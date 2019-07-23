@@ -1,11 +1,10 @@
 package aop;
 
-import aop.annotation.After;
-import aop.annotation.Aspect;
-import aop.annotation.Before;
-import aop.annotation.PointCut;
+import aop.annotation.*;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -14,7 +13,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Date: 2019/7/23 14:04
  */
 public class MyApplicationContext1 {
-	
+
 	private static HashMap<Object,Object> targetAndProy = new HashMap<>();
 	private static ArrayList<Object> obj = new ArrayList <> ();
 	/**
@@ -24,7 +23,7 @@ public class MyApplicationContext1 {
 	static {
 		initAopBeanMap("aop");
 	}
-	
+
 	/**
 	 * 初始化容器
 	 * @param basePath
@@ -42,11 +41,31 @@ public class MyApplicationContext1 {
 							PointCut pointCut = method.getAnnotation (PointCut.class);
 							String pointCutStr = pointCut.value();
 							if(pointCutStr.contains ("@annotation")) {
-								String annotation = pointCutStr.substring (pointCutStr.indexOf ("(")+1,pointCutStr.indexOf (")"));
-								System.out.println (annotation);
-								System.out.println(MyApplicationContext1.class.getClassLoader ().getResource (""));
+								String annotation = pointCutStr.substring(pointCutStr.indexOf("(") + 1, pointCutStr.indexOf(")"));
+								Class an = Class.forName(annotation);
+								System.out.println(annotation);
+								for(Class cl : classSet) {
+
+									if(!cl.isAnnotation() && !cl.isInterface() && !Modifier.isAbstract(cl.getModifiers()) ) {
+										Method[] ms = cl.getDeclaredMethods();
+										for (Method m : ms) {
+											if (m.isAnnotationPresent(an)) {
+												Object o = ReflectionUtil.newInstance(clazz);
+												String methodName = m.getDeclaringClass().getName() + "." + m.getName();
+												Object targeObj = cl.newInstance();
+												obj.add(targeObj);
+
+												myMethodAdvance.aspectMap(o).methodToPoint(methodName, method.getName())
+														.pointToClass(method.getName(), o);
+											}
+										}
+									}
+
+								}
+//
+
 							}else {
-								
+
 								//System.out.println("pointCutStr:" + pointCutStr);
 								String[] pointCutArr = pointCutStr.split ("_");
 								//被代理的类名
@@ -55,14 +74,14 @@ public class MyApplicationContext1 {
 								//被代理的方法名
 								String methodName = pointCutArr[1];
 								// System.out.println("methodName:" + methodName);
-								
+
 								//根据切点 创建被代理对象
 								Object targeObj = ReflectionUtil.newInstance (className);
 								obj.add (targeObj);
-								//根据切面类创建代理者
+
 								Object o = ReflectionUtil.newInstance (clazz);
 								
-								myMethodAdvance.aspectMap (o).methodToPoint (methodName, method.getName ())
+								myMethodAdvance.aspectMap (o).methodToPoint (className+"."+methodName, method.getName ())
 									.pointToClass (method.getName (), o);
 							}
 							
