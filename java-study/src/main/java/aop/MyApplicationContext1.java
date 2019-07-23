@@ -43,6 +43,7 @@ public class MyApplicationContext1 {
 							if(pointCutStr.contains ("@annotation")) {
 								String annotation = pointCutStr.substring(pointCutStr.indexOf("(") + 1, pointCutStr.indexOf(")"));
 								Class an = Class.forName(annotation);
+
 								System.out.println(annotation);
 								for(Class cl : classSet) {
 
@@ -50,13 +51,14 @@ public class MyApplicationContext1 {
 										Method[] ms = cl.getDeclaredMethods();
 										for (Method m : ms) {
 											if (m.isAnnotationPresent(an)) {
+												Object mAno = m.getAnnotation (an);
 												Object o = ReflectionUtil.newInstance(clazz);
 												String methodName = m.getDeclaringClass().getName() + "." + m.getName();
 												Object targeObj = cl.newInstance();
 												obj.add(targeObj);
 
 												myMethodAdvance.aspectMap(o).methodToPoint(methodName, method.getName())
-														.pointToClass(method.getName(), o);
+														.pointToClass(method.getName(), o).annotations(methodName,mAno);
 											}
 										}
 									}

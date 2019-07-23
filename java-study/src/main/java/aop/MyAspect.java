@@ -38,6 +38,7 @@ public class MyAspect {
 	
 	@Before("pointCut1")
 	public void doBefore1(JoinPoint joinPoint) {
+		System.out.println(joinPoint.getAnoValues().get("des"));
 		System.out.println("pointCut1 do before");
 	}
 	

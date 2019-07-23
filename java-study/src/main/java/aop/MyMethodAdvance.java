@@ -27,6 +27,7 @@ public class MyMethodAdvance implements MethodInterceptor {
 	private HashMap<String,Object>  pointToClass = new HashMap <> () ;
 	private HashMap<String,Method> before = new HashMap <> () ;
 	private HashMap<String,Method> after = new HashMap <> () ;
+	private HashMap<String,Object> annotations = new HashMap<>();
 
 	public MyMethodAdvance aspectMap(Object aspect){
 		this.aspectMap.add (aspect);
@@ -50,6 +51,10 @@ public class MyMethodAdvance implements MethodInterceptor {
 	
 	public MyMethodAdvance after(String p,Method m){
 		this.after.put (p,m);
+		return this;
+	}
+	public MyMethodAdvance annotations(String name,Object o){
+		this.annotations.put(name,o);
 		return this;
 	}
 	
@@ -83,16 +88,29 @@ public class MyMethodAdvance implements MethodInterceptor {
 			a = after.get(point);
 		}
 
+		Object anoObject = annotations.get(methodName);
+		HashMap<String,Object> anoValues = new HashMap<>();
+		JoinPoint joinPoint = new JoinPoint();
+		if(anoObject != null){
+			// 获得这个注解的所有方法
+			Method[] methods = anoObject.getClass().getDeclaredMethods();
+			for (Method m : methods){
+				Object o = m.invoke(anoObject);
+
+				anoValues.put(m.getName(),o);
+			}
+			joinPoint.setAnoValues(anoValues);
+		}
 		
 		if(b != null){
-			b.invoke (aspect,new Object[] {new JoinPoint()});
+			b.invoke (aspect,new Object[] {joinPoint});
 		}
 		
 		//执行拦截的方法
 		Object result = methodProxy.invokeSuper(proxy,args);
 		
 		if(a != null){
-			a.invoke (aspect,new Object[] {new JoinPoint()});
+			a.invoke (aspect,new Object[] {joinPoint});
 		}
 		return result;
 	}
