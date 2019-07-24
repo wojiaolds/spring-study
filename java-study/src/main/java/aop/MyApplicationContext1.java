@@ -55,6 +55,7 @@ public class MyApplicationContext1 {
 												Object o = ReflectionUtil.newInstance(clazz);
 												String methodName = m.getDeclaringClass().getName() + "." + m.getName();
 												Object targeObj = cl.newInstance();
+											
 												obj.add(targeObj);
 
 												myMethodAdvance.aspectMap(o).methodToPoint(methodName, method.getName())

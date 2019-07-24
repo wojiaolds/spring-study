@@ -1,5 +1,6 @@
 package aop;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 
 /**
@@ -8,6 +9,7 @@ import java.util.HashMap;
  */
 public class JoinPoint {
     private HashMap<String,Object> anoValues = null;
+    private Method method;
 
     public JoinPoint(){
 
@@ -23,5 +25,15 @@ public class JoinPoint {
 
     public void setAnoValues(HashMap<String, Object> anoValues) {
         this.anoValues = anoValues;
+    }
+    
+    public Method getMethod () {
+        
+        return method;
+    }
+    
+    public void setMethod ( Method method ) {
+        
+        this.method = method;
     }
 }

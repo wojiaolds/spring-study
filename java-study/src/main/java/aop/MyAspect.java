@@ -1,9 +1,8 @@
 package aop;
 
-import aop.annotation.After;
-import aop.annotation.Aspect;
-import aop.annotation.Before;
-import aop.annotation.PointCut;
+import aop.annotation.*;
+
+import java.lang.reflect.Method;
 
 /**
  * @Author: lds
@@ -38,12 +37,16 @@ public class MyAspect {
 	
 	@Before("pointCut1")
 	public void doBefore1(JoinPoint joinPoint) {
-		System.out.println(joinPoint.getAnoValues().get("des"));
+		
+		LogAnnotation logAnnotation = joinPoint.getMethod ().getAnnotation (LogAnnotation.class);
+		System.out.println(logAnnotation.des ());
 		System.out.println("pointCut1 do before");
 	}
 	
 	@After("pointCut1")
 	public void doAfter1(JoinPoint joinPoint) {
+		LogAnnotation logAnnotation = joinPoint.getMethod ().getAnnotation (LogAnnotation.class);
+		System.out.println(logAnnotation.des ());
 		System.out.println("pointCut1 do after");
 	}
 }

@@ -91,16 +91,7 @@ public class MyMethodAdvance implements MethodInterceptor {
 		Object anoObject = annotations.get(methodName);
 		HashMap<String,Object> anoValues = new HashMap<>();
 		JoinPoint joinPoint = new JoinPoint();
-		if(anoObject != null){
-			// 获得这个注解的所有方法
-			Method[] methods = anoObject.getClass().getDeclaredMethods();
-			for (Method m : methods){
-				Object o = m.invoke(anoObject);
-
-				anoValues.put(m.getName(),o);
-			}
-			joinPoint.setAnoValues(anoValues);
-		}
+		joinPoint.setMethod (method);
 		
 		if(b != null){
 			b.invoke (aspect,new Object[] {joinPoint});
