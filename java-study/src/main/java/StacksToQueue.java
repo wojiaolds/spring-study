@@ -71,6 +71,8 @@ public class StacksToQueue<T> {
 		System.out.println(q.removeFirst());
 		System.out.println(q.removeFirst());
 		System.out.println(q.removeFirst());
+		
+		
 	}
 	
 }
