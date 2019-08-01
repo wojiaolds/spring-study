@@ -10,7 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class AtomicIntegerTest {
 	
 	public static AtomicInteger count = new AtomicInteger (0);
-	
+	public volatile static int cnt = 0;
 	public static void main ( String[] args ) throws InterruptedException {
 		
 		for ( int i = 0 ; i < 100 ; i++ ) {
@@ -20,8 +20,16 @@ public class AtomicIntegerTest {
 				}
 			}).start ();
 		}
+		for ( int i = 0 ; i < 100 ; i++ ) {
+			new Thread (() -> {
+				for ( int j = 0 ; j < 100 ; j++ ) {
+					cnt++;
+				}
+			}).start ();
+		}
 		Thread.sleep (1000);
 		System.out.println ("AtomicInteger count: " + count);
+		System.out.println ("cnt: " + cnt);
 	}
 	
 
