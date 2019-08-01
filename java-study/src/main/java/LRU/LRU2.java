@@ -14,6 +14,14 @@ public class LRU2<K, V> {
 	private Entry<K, V> head;
 	private Entry<K, V> tail;
 	
+	//其实完全可以用双向链表实现，但是这样获取数据会比较慢
+	//另外用一个map来存放节点信息，这样获取数据就不需要遍历链表了
+	//hashmap内部是把hash值相同的key的entry用一个链表串起来的，每次进来的都放到自己所对应的链表的最前面
+	//然后每个链表的头结点是放到一个数组中的，这样查找数据的时候都是先根据key计算出hash值，再根据hash值得到对应的数组下标
+	//然后根据下标取出对应的头结点，然后再去遍历链表查找数据
+	//jdk8有所改动，当链表长度达到8就自动转为红黑树（平衡查找二叉树）
+	
+	
 	private HashMap<K, Entry<K, V>> cache;
 	
 	public LRU2(int cacheSize) {
@@ -25,14 +33,18 @@ public class LRU2<K, V> {
 		Entry<K, V> entry = getEntry(key);
 		if (entry == null) {
 			if (cache.size() >= MAX_CACHE_SIZE) {
+				//删除尾结点
 				cache.remove(tail.key);
 				removeTail();
 			}
 			entry = new Entry<>(null,key,value,head);
+			//往链表前端增加一个节点
 			createToHead(entry);
+			//map中存入数据
 			cache.put(key, entry);
 		} else {
 			entry.value = value;
+			//如果key存在，将key对应的节点移动到链表最前面
 			moveToHead(entry);
 		}
 	}
@@ -42,6 +54,7 @@ public class LRU2<K, V> {
 		if (entry == null) {
 			return null;
 		}
+		//将当前访问的节点移动到链表最前面
 		moveToHead(entry);
 		return entry.value;
 	}
@@ -84,20 +97,28 @@ public class LRU2<K, V> {
 	
 	private void moveToHead(Entry<K, V> entry) {
 		
+		//如果当前更新的节点就是头结点(等价于当前节点的前一个节点为空)，直接返回
 		if (entry == head) {
 			return;
 		}
-		
+		//当前要更新的节点的前一个节点的下一个节点指向当前要更新节点的下一个节点
 		entry.pre.next = entry.next;
-	
+		
 		if (entry.next != null) {
+			//如果当前要更新节点的下一个节点不为空
+			//就将当前节点的下一个节点的前一个节点指向当前要更新节点的前一个节点
 			entry.next.pre = entry.pre;
 		}else {
+			//如果当前要更新节点的下一个节点为空
+			//就将尾结点赋值成当期要更新节点的上一个节点
 			tail = entry.pre;
 			tail.next = null;
 			
 		}
-		
+		//当前要更新节点的下一个节点指向当前的头结点
+		//当前头节点的前一个节点指向当前要更新的节点
+		//当前要更新的节点前一个节点赋值为空
+		//头结点赋值成当前要更新的节点
 		entry.next = head;
 		head.pre = entry;
 		entry.pre = null;
@@ -107,6 +128,8 @@ public class LRU2<K, V> {
 	private void createToHead(Entry<K, V> entry) {
 		Entry<K, V> h = head;
 		Entry<K, V> t = tail;
+		//头节点每次都赋值成当前插入的节点，
+		// 尾结点一直保持不动，原来的头结点指向当前插入的节点
 		head = entry;
 		if(h == null)
 			tail = entry;
