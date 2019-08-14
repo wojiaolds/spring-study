@@ -5,12 +5,23 @@ package thread.cyclicbarrier;
  * @Date: 2019/8/1 15:54
  */
 
-import java.util.concurrent.BrokenBarrierException;
-import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.*;
 
 public class CyclicBarrierDemo {
 	
+	
 	public static void main ( String args[] ) throws Exception {
+		/**
+		 * LinkedBlockingQueue的容量默认大小是Integer.Max，
+		 * 在任务没有填满这个容量之前线程池大小是不会超过设定的核心线程数量2的。
+		 */
+		//第一个线程阻塞在那里，第二个任务进来放进了队列中（等待空闲的核心线程），
+		// 第三个任务进来线程池另开了一个线程执行
+		ThreadPoolExecutor executor = new ThreadPoolExecutor (1, 1,
+								0L, TimeUnit.MILLISECONDS,
+								new LinkedBlockingQueue<>(1));
+		
+		
 		/**
 		 * CyclicBarrier与CountDownLatch的区别
 			 A、CountDownLatch的作用是允许1或N个线程等待其他线程完成执行；
@@ -22,14 +33,24 @@ public class CyclicBarrierDemo {
 		// 3是指barrier.await的次数，
 		// barrier设置了runnable,await都执行了的时候会接着执行它的run方法
 		// 然后接着执行所有await后面的任务
-		CyclicBarrier barrier = new CyclicBarrier (2, new TotalTask ());
+		CyclicBarrier barrier = new CyclicBarrier (4, new TotalTask ());
 		
 		BillTask worker1 = new BillTask ("111", barrier);
 		BillTask worker2 = new BillTask ("222", barrier);
 		BillTask worker3 = new BillTask ("333", barrier);
-		worker1.start ();
-		worker2.start ();
-		worker3.start ();
+		
+
+//		worker1.start ();
+//		worker2.start ();
+//		worker3.start ();
+		
+		executor.submit (worker1);
+		executor.submit (worker2);
+		executor.submit (worker3);
+		executor.shutdown ();
+		
+		System.out.println ("Main Thread wait!");
+		barrier.await ();
 		System.out.println ("Main thread end!");
 	}
 	
