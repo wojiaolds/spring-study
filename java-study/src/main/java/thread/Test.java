@@ -7,7 +7,7 @@ package thread;
 public class Test{
 	public static void main(String[] args) {
 		// 仓库对象
-		AbstractStorage abstractStorage = new Storage1();
+		AbstractStorage abstractStorage = new Storage ();
 		
 		// 生产者对象
 		Producer p1 = new Producer(abstractStorage);

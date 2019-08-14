@@ -10,7 +10,7 @@ import java.util.LinkedList;
  *  生产者和消费者的问题
  *  wait、notify/notifyAll() 实现
  */
-public class Storage1 implements AbstractStorage {
+public class Storage implements AbstractStorage {
 	//仓库最大容量
 	private final int MAX_SIZE = 100;
 	//仓库存储的载体
