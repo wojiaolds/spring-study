@@ -88,8 +88,8 @@ public class MyMethodAdvance implements MethodInterceptor {
 			a = after.get(point);
 		}
 
-		Object anoObject = annotations.get(methodName);
-		HashMap<String,Object> anoValues = new HashMap<>();
+//		Object anoObject = annotations.get(methodName);
+//		HashMap<String,Object> anoValues = new HashMap<>();
 		JoinPoint joinPoint = new JoinPoint();
 		joinPoint.setMethod (method);
 		

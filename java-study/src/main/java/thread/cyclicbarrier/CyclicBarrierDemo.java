@@ -5,6 +5,8 @@ package thread.cyclicbarrier;
  * @Date: 2019/8/1 15:54
  */
 
+import thread.threadPool.MyThreadPoolExecutor;
+
 import java.util.concurrent.*;
 
 public class CyclicBarrierDemo {
@@ -13,13 +15,15 @@ public class CyclicBarrierDemo {
 	public static void main ( String args[] ) throws Exception {
 		/**
 		 * LinkedBlockingQueue的容量默认大小是Integer.Max，
-		 * 在任务没有填满这个容量之前线程池大小是不会超过设定的核心线程数量2的。
+		 * 在任务没有填满这个容量之前线程池大小是不会超过设定的核心线程数量的。
+		 * 也就是队列没有填满不会另外开线程，都在等待核心线程
+		 * 队列容量不能<=0
 		 */
 		//第一个线程阻塞在那里，第二个任务进来放进了队列中（等待空闲的核心线程），
 		// 第三个任务进来线程池另开了一个线程执行
-		ThreadPoolExecutor executor = new ThreadPoolExecutor (1, 1,
-								0L, TimeUnit.MILLISECONDS,
-								new LinkedBlockingQueue<>(1));
+		ThreadPoolExecutor executor = new MyThreadPoolExecutor (3, 5,
+																1L, TimeUnit.MILLISECONDS,
+																new LinkedBlockingQueue<>(1));
 		
 		
 		/**
