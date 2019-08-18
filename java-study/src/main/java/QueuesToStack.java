@@ -20,7 +20,8 @@ public class QueuesToStack<T> {
 		queue1.addLast(value);
 		
 	}
-	
+
+
 	public T pop()//出栈     必须是非空的栈才能出栈啊
 	{
 		if(sSize()!=0)//栈不为空
