@@ -19,7 +19,7 @@ public class DeleteLittle {
         }
 
         List<Map.Entry<Character,Integer>> list = new ArrayList<>(map.entrySet());
-        Collections.sort(list, Comparator.comparingInt(Map.Entry<Character,Integer>::getValue));
+        Collections.sort(list, Comparator.comparingInt(Map.Entry::getValue));
         int cnt = list.get(0).getValue();
         Set<Character> set = new HashSet<>();
         for (Map.Entry<Character,Integer> entry:list) {

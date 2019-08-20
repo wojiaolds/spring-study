@@ -3,7 +3,7 @@ package test;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-
+//二进制0和1的个数
 public class IntParseBinary {
 
     public static void main(String[] args) {

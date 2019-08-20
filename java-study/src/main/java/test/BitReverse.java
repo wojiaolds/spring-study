@@ -1,5 +1,5 @@
 package test;
-
+//位反转
 public class BitReverse {
 
     public static void main(String[] args) {

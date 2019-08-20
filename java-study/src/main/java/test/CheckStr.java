@@ -2,6 +2,7 @@ package test;
 
 import java.util.Scanner;
 
+//判断一个字符串中是否只含有相同的子字符串（子串长度>=2）
 public class CheckStr {
     /**
      * @param args

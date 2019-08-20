@@ -3,7 +3,7 @@ package test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
+//找出一个int[]中满足 2^n的数字，然后组成的新的数组
 public class NextString1 {
     public static void main(String[] args) {
         int[] arr = {1,4,3,8,7,9,16,32,45};
@@ -18,7 +18,7 @@ public class NextString1 {
             if (fun(a))
                 list.add(a);
         }
-
+     
         Integer[] resultArr = new Integer[list.size()];
 
         return list.toArray(resultArr);

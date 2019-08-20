@@ -21,7 +21,7 @@ public class CyclicBarrierDemo {
 		 */
 		//第一个线程阻塞在那里，第二个任务进来放进了队列中（等待空闲的核心线程），
 		// 第三个任务进来线程池另开了一个线程执行
-		ThreadPoolExecutor executor = new MyThreadPoolExecutor (3, 5,
+		ThreadPoolExecutor executor = new ThreadPoolExecutor (3, 5,
 																1L, TimeUnit.MILLISECONDS,
 																new LinkedBlockingQueue<>(1));
 		
@@ -38,23 +38,24 @@ public class CyclicBarrierDemo {
 		// barrier设置了runnable,await都执行了的时候会接着执行它的run方法
 		// 然后接着执行所有await后面的任务
 		CyclicBarrier barrier = new CyclicBarrier (4, new TotalTask ());
-		
-		BillTask worker1 = new BillTask ("111", barrier);
-		BillTask worker2 = new BillTask ("222", barrier);
-		BillTask worker3 = new BillTask ("333", barrier);
-		
-
-//		worker1.start ();
-//		worker2.start ();
-//		worker3.start ();
-		
-		executor.submit (worker1);
-		executor.submit (worker2);
-		executor.submit (worker3);
-		executor.shutdown ();
+		String[] str= new String[]{"111","222","333"};
+		for ( int i = 0 ; i < 3 ; i++ ) {
+			executor.execute (new BillTask (str[i], barrier));
+		}
+//		executor.shutdown ();
 		
 		System.out.println ("Main Thread wait!");
+		Thread.sleep (1005L);
+		System.out.println (	barrier.getNumberWaiting ());
 		barrier.await ();
+		System.out.println (	barrier.getNumberWaiting ());
+		System.out.println ("Main thread end!");
+		
+		for ( int i = 0 ; i < 3 ; i++ ) {
+			executor.execute (new BillTask (str[i], barrier));
+		}
+		executor.shutdown ();
+		barrier.await (); //计数器已经被重置了
 		System.out.println ("Main thread end!");
 	}
 	

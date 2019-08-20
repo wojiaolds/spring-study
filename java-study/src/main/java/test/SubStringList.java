@@ -2,7 +2,7 @@ package test;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-
+//查找一个字符串的子字符串集
 public class SubStringList {
 
     public static void main(String[] args) {

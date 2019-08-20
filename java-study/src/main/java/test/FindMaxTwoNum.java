@@ -12,6 +12,9 @@ public class FindMaxTwoNum {
 		int[] array = { 1, 2, 5, 9, 84, 3, 2 };
 		System.out.println ("数组" + Arrays.toString (array) + "里面最大的2个数为：");
 		findMaxTwoNum (array);
+		String str = "23de";
+		char c = 'd';
+		
 	}
 
 	public static void findMaxTwoNum(int[] array) {

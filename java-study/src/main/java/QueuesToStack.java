@@ -91,6 +91,8 @@ public class QueuesToStack<T> {
 		linkedList.addLast (1);
 		linkedList.add (1);
 		
+		
+		
 	}
 	
 }

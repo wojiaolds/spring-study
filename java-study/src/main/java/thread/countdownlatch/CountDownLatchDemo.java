@@ -6,23 +6,37 @@ package thread.countdownlatch;
  */
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 public class CountDownLatchDemo {
 	
 	public static void main ( String args[] ) throws Exception {
 		//3是指执行countDown的次数，执行一次就减1
 		final CountDownLatch latch = new CountDownLatch (3);
+		ThreadPoolExecutor executor = new ThreadPoolExecutor (3, 5,
+															  1L, TimeUnit.MILLISECONDS,
+															  new LinkedBlockingQueue<> (1));
 		
-		Worker worker1 = new Worker ("Jack 程序员1", latch);
-		Worker worker2 = new Worker ("Rose 程序员2", latch);
-		Worker worker3 = new Worker ("Json 程序员3", latch);
-		worker1.start ();
-		worker2.start ();
-		worker3.start ();
+		String[] str= new String[]{"Jack 程序员","Rose 程序员","Json 程序员"};
+		for ( int i = 0 ; i < 3 ; i++ ) {
+			executor.execute (new Worker (str[i], latch));
+		}
 		
 		System.out.println ("Main Thread wait!");
+		System.out.println (latch.getCount ());
 		latch.await ();
+		System.out.println (latch.getCount ());
 		System.out.println ("Main thread end!");
+		
+		for ( int i = 0 ; i < 3 ; i++ ) {
+			executor.execute (new Worker (str[i], latch));
+		}
+		latch.await (); //计数器不会重置，线程不会被挂起
+		System.out.println ("Main thread end!");
+		System.out.println (latch.getCount ());
+		executor.shutdown ();
 	}
 	
 	static class Worker extends Thread {
@@ -47,8 +61,10 @@ public class CountDownLatchDemo {
 			} catch ( InterruptedException e ) {
 				// TODO Auto-generated catch block
 				e.printStackTrace ();
-			}//模仿干活
-			latch.countDown ();
+			}finally {
+				latch.countDown ();
+			}
+			
 		}
 	}
 }
