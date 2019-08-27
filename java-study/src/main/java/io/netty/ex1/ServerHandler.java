@@ -1,4 +1,4 @@
-package io.netty;
+package io.netty.ex1;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -14,7 +14,7 @@ import java.io.UnsupportedEncodingException;
 public class ServerHandler extends ChannelInboundHandlerAdapter {
 
 	/**
-	 * ÊÕµ½¿Í»§¶ËÏûÏ¢
+	 * æ”¶åˆ°å®¢æˆ·ç«¯æ¶ˆæ¯
 	 * @throws UnsupportedEncodingException
 	 */
 	@Override
@@ -23,12 +23,12 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 		byte[] req = new byte[in.readableBytes()];
 		in.readBytes(req);
 		String body = new String(req,"utf-8");
-		System.out.println("ÊÕµ½¿Í»§¶ËÏûÏ¢:"+body);
+		System.out.println("æ”¶åˆ°å®¢æˆ·ç«¯æ¶ˆæ¯:"+body);
 		String calrResult = null;
 		try{
 			calrResult = Calculator.Instance.cal(body).toString();
 		}catch(Exception e){
-			calrResult = "´íÎóµÄ±í´ïÊ½£º" + e.getMessage();
+			calrResult = "é”™è¯¯çš„è¡¨è¾¾å¼ï¼š" + e.getMessage();
 		}
 		ctx.write(Unpooled.copiedBuffer(calrResult.getBytes()));
 	}
@@ -39,7 +39,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 	}
 
 	/**
-	 * Òì³£´¦Àí
+	 * å¼‚å¸¸å¤„ç†
 	 */
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {

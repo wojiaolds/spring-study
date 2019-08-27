@@ -1,4 +1,4 @@
-package io.netty;
+package io.netty.ex1;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -34,7 +34,7 @@ public class Server {
                     });
 
             ChannelFuture f = b.bind(port).sync();
-            System.out.println("·þÎñÆ÷¿ªÆô£º"+port);
+            System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"+port);
             f.channel().closeFuture().sync();
         } finally {
             workerGroup.shutdownGracefully();

@@ -1,4 +1,4 @@
-package io.netty;
+package io.netty.ex1;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -36,6 +36,7 @@ public class Client implements Runnable{
                 @Override
                 public void initChannel(SocketChannel ch) throws Exception {
                     ch.pipeline().addLast(client);
+				
                 }
             });
             ChannelFuture f = b.connect(host, port).sync();

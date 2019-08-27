@@ -1,4 +1,4 @@
-package io.netty;
+package io.netty.ex1;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
@@ -11,16 +11,16 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
 	ChannelHandlerContext ctx;
 	/**
-	 * tcp链路简历成功后调用
+	 * tcp??路????????????
 	 */
 	@Override
 	public void channelActive(ChannelHandlerContext ctx) throws Exception {
 		this.ctx = ctx;
-		sendMsg("客户端消息");
+		sendMsg("????????");
 	}
 
 	public boolean sendMsg(String msg){
-		System.out.println("客户端发送消息："+msg);
+		System.out.println("?????????????"+msg);
 		byte[] req = msg.getBytes();
 		ByteBuf m = Unpooled.buffer(req.length);
 		m.writeBytes(req);
@@ -29,7 +29,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 	}
 
 	/**
-	 * 收到服务器消息后调用
+	 * ?????????????????
 	 * @throws UnsupportedEncodingException
 	 */
 	@Override
@@ -38,10 +38,10 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 		byte[] req = new byte[buf.readableBytes()];
 		buf.readBytes(req);
 		String body = new String(req,"utf-8");
-		System.out.println("服务器消息："+body);
+		System.out.println("???????????"+body);
 	}
 	/**
-	 * 发生异常时调用
+	 * ???????????
 	 */
 	@Override
 	public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {

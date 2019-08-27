@@ -1,9 +1,12 @@
 package test;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.*;
 
 public class DeleteLittle {
     public static void main(String[] args) {
+        
         String str = "asdasda";
         System.out.println(deleteLittle(str));
     }
@@ -19,7 +22,7 @@ public class DeleteLittle {
         }
 
         List<Map.Entry<Character,Integer>> list = new ArrayList<>(map.entrySet());
-        Collections.sort(list, Comparator.comparingInt(Map.Entry::getValue));
+        Collections.sort(list, Comparator.comparingInt(Map.Entry<Character,Integer>::getValue));
         int cnt = list.get(0).getValue();
         Set<Character> set = new HashSet<>();
         for (Map.Entry<Character,Integer> entry:list) {
