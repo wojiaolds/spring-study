@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="zookeeper-server:war">
+    <output-path>$PROJECT_DIR$/../spring-cloud-test/zookeeper-server/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>zookeeper-server</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="zookeeper-server-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="zookeeper-server:war exploded" />
+    </root>
+  </artifact>
+</component>

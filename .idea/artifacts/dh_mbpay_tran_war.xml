@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="dh.mbpay.tran:war">
+    <output-path>$PROJECT_DIR$/../../mpay/dh.mbpay.tran/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>dh.mbpay.tran</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="tdcctp.war">
+      <element id="artifact" artifact-name="dh.mbpay.tran:war exploded" />
+    </root>
+  </artifact>
+</component>

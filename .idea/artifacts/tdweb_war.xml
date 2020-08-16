@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="tdweb:war">
+    <output-path>$PROJECT_DIR$/../../mpay/dh.mbpay.web/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>tdweb</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="pay.war">
+      <element id="artifact" artifact-name="tdweb:war exploded" />
+    </root>
+  </artifact>
+</component>

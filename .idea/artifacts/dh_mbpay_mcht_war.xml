@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="dh.mbpay.mcht:war">
+    <output-path>$PROJECT_DIR$/../../mpay/dh.mbpay.mcht/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>dh.mbpay.mcht</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="mcht.war">
+      <element id="artifact" artifact-name="dh.mbpay.mcht:war exploded" />
+    </root>
+  </artifact>
+</component>
